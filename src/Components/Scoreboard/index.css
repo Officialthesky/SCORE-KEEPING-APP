@@ -1,0 +1,114 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100&family=Sansita:wght@700&display=swap");
+* {
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+}
+.scoreBoard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.scoreBoardPage {
+  width: 100vw;
+  height: 80vh;
+  display: flex;
+  flex-direction: row;
+}
+.teamADivision,
+.teamBDivision {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.teamAScoreDivision,
+.teamBScoreDivision,
+.teamAMatchWin,
+.teamBMatchWin,
+.teamAMatchPlayed,
+.teamBMatchPlayed {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 230px;
+  height: 100px;
+  background-color: whitesmoke;
+  color: darkslategray;
+  outline: none;
+  border-width: 0px;
+  border-radius: 5px;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  margin: 15px 0px 15px 0px;
+  font-family: "Sansita", sans-serif;
+}
+.teamAScoreAndMatchWin {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.teamBScoreAndMatchWin {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.teamAMatchWin {
+  width: 150px;
+  height: 100px;
+  margin-right: 20px;
+  background-color: darkslategray;
+  color: whitesmoke;
+}
+.teamAMatchPlayed {
+  width: 150px;
+  height: 100px;
+  margin-left: 20px;
+  background-color: darkslategray;
+  color: whitesmoke;
+}
+.teamBMatchWin {
+  width: 150px;
+  height: 100px;
+  margin-left: 20px;
+  background-color: darkslategray;
+  color: whitesmoke;
+}
+.teamBMatchPlayed {
+  width: 150px;
+  height: 100px;
+  margin-right: 20px;
+  background-color: darkslategray;
+  color: whitesmoke;
+}
+.pointButtons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.currentScoreOfTeamA,
+.currentScoreOfTeamB {
+  margin: 15px 0px 15px 0px;
+}
+button {
+  width: 200px;
+  height: 50px;
+  background-color: darkslategray;
+  color: cornsilk;
+  outline: none;
+  border-width: 0px;
+  border-radius: 5px;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  margin-bottom: 15px;
+}
+.matchesDivision button {
+  margin: 0px 15px 0px 15px;
+}

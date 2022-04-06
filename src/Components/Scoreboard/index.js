@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./index.css";
 import { useNavigate } from "react-router";
 import { resetTeamAValueFromUtils } from "../../utils/helper";
+import Teamdivision from "../Teamsdivision";
 
 export default function Scoreboard() {
   const [teamAScore, setTeamAScore] = useState(0); //team A Score
@@ -40,12 +41,10 @@ export default function Scoreboard() {
     if (+teamAScoreFromLocalStorage > +teamBScoreFromLocalStorage) {
       setDisableTeamA(false);
       setDisableTeamB(true);
-      console.log("HI");
     }
     if (+teamAScoreFromLocalStorage < +teamBScoreFromLocalStorage) {
       setDisableTeamB(false);
       setDisableTeamA(true);
-      console.log("bye");
     }
     setTeamATurn(0);
     setTeamBTurn(0);
@@ -64,18 +63,24 @@ export default function Scoreboard() {
   };
 
   const scoreHandler = (action, team) => {
+    localStorage.getItem("SETDISABLEA");
+    localStorage.getItem("SETDISABLEB");
     if (team === "A") {
       setTeamATurn(teamATurn + 1);
       if (teamATurn === 1) {
         setDisableTeamA(true);
+
         setDisableTeamB(false);
+
         setTeamBTurn(0);
       }
     } else {
       setTeamBTurn(teamBTurn + 1);
       if (teamBTurn === 1) {
         setDisableTeamB(true);
+
         setDisableTeamA(false);
+
         setTeamATurn(0);
       }
     }
@@ -86,7 +91,11 @@ export default function Scoreboard() {
       setMatchLeft(totalmatches - matchPlayed - 1);
       localStorage.setItem("MATCHLEFT", totalmatches - matchPlayed - 1);
       setDisableTeamA(true);
+      localStorage.setItem("SETDISABLEA", true);
+
       setDisableTeamB(true);
+      localStorage.setItem("SETDISABLEB", true);
+
       setDisablePlayNextMatch(false);
     }
     if (action === "plusone") {
@@ -128,124 +137,20 @@ export default function Scoreboard() {
   return (
     <div className="scoreBoard">
       <div className="scoreBoardPage">
-        <div className="teamADivision">
-          <h1>{localStorage.getItem("TEAMA")}</h1>
-
-          <div className="teamAScoreAndMatchWin">
-            <div className="teamAMatchWin">
-              <h1 className="teamAMatchWinCount">
-                {localStorage.getItem("TEAMAWINMATCHES")}
-              </h1>
-
-              <p>Matches Win</p>
-            </div>
-            <div className="teamAScoreDivision">
-              <h1 className="currentScoreOfTeamA">
-                {localStorage.getItem("TEAMASCORE")}
-              </h1>
-            </div>
-            <div className="teamAMatchPlayed">
-              <h1 className="teamAMatchPlayedCount">
-                {localStorage.getItem("MATCHPLAYED")}
-              </h1>
-
-              <p>Matches Played</p>
-            </div>
-          </div>
-
-          <div className="pointButtons">
-            <button
-              onClick={() => scoreHandler("plusone", "A")}
-              disabled={disableTeamA}
-              className={`${disableTeamA && "disabled"}`}
-            >
-              +1
-            </button>
-            <button
-              onClick={() => scoreHandler("foul", "A")}
-              disabled={disableTeamA}
-              className={`${disableTeamA && "disabled"}`}
-            >
-              Foul
-            </button>
-            <button
-              onClick={() => scoreHandler("wrongserve", "A")}
-              disabled={disableTeamA}
-              className={`${disableTeamA && "disabled"}`}
-            >
-              Wrong Serve
-            </button>
-            <button
-              onClick={() => resetTeamValue("A")}
-              disabled={disableTeamA}
-              className={`${disableTeamA && "disabled"}`}
-            >
-              Reset
-            </button>
-          </div>
-        </div>
+        <Teamdivision
+          team="A"
+          scoreHandler={scoreHandler}
+          resetTeamValue={resetTeamValue}
+          disableTeam={disableTeamA}
+        />
 
         <hr></hr>
-        <div className="teamBDivision">
-          <h1>{localStorage.getItem("TEAMB")}</h1>
-
-          <div className="teamBScoreAndMatchWin">
-            <div className="teamBMatchPlayed">
-              {/* <h1 className="teamBMatchPlayedCount">{matchPlayed}</h1> */}
-              <h1 className="teamBMatchPlayedCount">
-                {localStorage.getItem("MATCHPLAYED")}
-              </h1>
-
-              <p>Matches Played</p>
-            </div>
-            <div className="teamBScoreDivision">
-              <h1 className="currentScoreOfTeamB">
-                {localStorage.getItem("TEAMBSCORE")}
-                {/* {teamBScore} */}
-              </h1>
-            </div>
-            <div className="teamBMatchWin">
-              {/* <h1 className="teamAMatchWinCount">{teamBWinMatches}</h1> */}
-              <h1 className="teamAMatchWinCount">
-                {localStorage.getItem("TEAMBWINMATCHES")}
-              </h1>
-
-              <p>Matches Win</p>
-            </div>
-          </div>
-
-          <div className="pointButtons">
-            <button
-              // onClick={() => scoreHandler("plusone", "B")}
-              onClick={() => scoreHandler("plusone", "B")}
-              disabled={disableTeamB}
-              className={`${disableTeamB && "disabled"}`}
-            >
-              +1
-            </button>
-            <button
-              onClick={() => scoreHandler("foul", "B")}
-              disabled={disableTeamB}
-              className={`${disableTeamB && "disabled"}`}
-            >
-              Foul
-            </button>
-            <button
-              onClick={() => scoreHandler("wrongserve", "B")}
-              disabled={disableTeamB}
-              className={`${disableTeamB && "disabled"}`}
-            >
-              Wrong Serve
-            </button>
-            <button
-              onClick={() => resetTeamValue("B")}
-              disabled={disableTeamB}
-              className={`${disableTeamB && "disabled"}`}
-            >
-              Reset
-            </button>
-          </div>
-        </div>
+        <Teamdivision
+          team="B"
+          scoreHandler={scoreHandler}
+          resetTeamValue={resetTeamValue}
+          disableTeam={disableTeamB}
+        />
       </div>
       <div className="matchesDivision">
         <button>TOTAL MATCHES : 5</button>

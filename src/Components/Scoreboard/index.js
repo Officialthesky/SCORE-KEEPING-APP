@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
 import { useNavigate } from "react-router";
-import { resetTeamAValueFromUtils } from "../../utils/helper";
+import {
+  resetTeamAValueFromUtils,
+  setValueInLocalStorage,
+  getValueFromLocalStorage,
+  removeValueInLocalStorage,
+} from "../../utils/helper";
 import Teamdivision from "../Teamsdivision";
 
 export default function Scoreboard() {
@@ -17,117 +22,137 @@ export default function Scoreboard() {
   const [teamATurn, setTeamATurn] = useState(0);
   const [teamBTurn, setTeamBTurn] = useState(0);
 
-  const totalmatches = 5;
   const navigate = useNavigate();
-  const teamAScoreFromLocalStorage = localStorage.getItem("TEAMASCORE");
-  const teamBScoreFromLocalStorage = localStorage.getItem("TEAMBSCORE");
-
-  useEffect(() => {
-    if (
-      +teamAScoreFromLocalStorage === 11 ||
-      +teamBScoreFromLocalStorage === 11
-    ) {
-      setDisableTeamA(true);
-      setDisableTeamB(true);
-      setDisablePlayNextMatch(false);
-    }
-  }, []);
-
   const resetTeamValue = (team) => {
     resetTeamAValueFromUtils(team);
   };
 
   const playNextMatch = () => {
-    if (+teamAScoreFromLocalStorage > +teamBScoreFromLocalStorage) {
+    if (
+      getValueFromLocalStorage("TEAMASCORE") >
+      getValueFromLocalStorage("TEAMBSCORE")
+    ) {
       setDisableTeamA(false);
       setDisableTeamB(true);
     }
-    if (+teamAScoreFromLocalStorage < +teamBScoreFromLocalStorage) {
+    if (
+      getValueFromLocalStorage("TEAMASCORE") <
+      getValueFromLocalStorage("TEAMBSCORE")
+    ) {
       setDisableTeamB(false);
       setDisableTeamA(true);
     }
     setTeamATurn(0);
     setTeamBTurn(0);
-
-    localStorage.removeItem("TEAMASCORE");
-    localStorage.removeItem("TEAMBSCORE");
-    localStorage.setItem("TEAMASCORE", 0);
-    localStorage.setItem("TEAMBSCORE", 0);
+    removeValueInLocalStorage("TEAMASCORE");
+    removeValueInLocalStorage("TEAMBSCORE");
+    setValueInLocalStorage("TEAMASCORE", 0);
+    setValueInLocalStorage("TEAMBSCORE", 0);
     setTeamAScore(0);
     setTeamBScore(0);
     setDisablePlayNextMatch(true);
-    localStorage.getItem("DISABLEPLAYNEXTBUTTON");
   };
   const seeMatchDetails = () => {
     navigate(`/matchdetails/`);
   };
 
   const scoreHandler = (action, team) => {
-    localStorage.getItem("SETDISABLEA");
-    localStorage.getItem("SETDISABLEB");
     if (team === "A") {
       setTeamATurn(teamATurn + 1);
+      setValueInLocalStorage("teamATurn", teamATurn + 1);
       if (teamATurn === 1) {
         setDisableTeamA(true);
+
         setDisableTeamB(false);
+
         setTeamBTurn(0);
+        setValueInLocalStorage("teamBTurn", 0);
       }
     } else {
       setTeamBTurn(teamBTurn + 1);
+      setValueInLocalStorage("teamBTurn", teamBTurn + 1);
+
       if (teamBTurn === 1) {
         setDisableTeamB(true);
+
         setDisableTeamA(false);
+
         setTeamATurn(0);
+        setValueInLocalStorage("teamATurn", 0);
       }
     }
 
     if (teamAScore === 10 || teamBScore === 10) {
       setMatchPlayed(matchPlayed + 1);
-      localStorage.setItem("MATCHPLAYED", matchPlayed + 1);
+      setValueInLocalStorage("MATCHPLAYED", matchPlayed + 1);
+
       setMatchLeft(matchLeft - 1);
-      localStorage.setItem("MATCHLEFT", matchLeft - 1);
+      setValueInLocalStorage("MATCHLEFT", matchLeft - 1);
+
       setDisableTeamA(true);
-      localStorage.setItem("SETDISABLEA", true);
       setDisableTeamB(true);
-      localStorage.setItem("SETDISABLEB", true);
       setDisablePlayNextMatch(false);
     }
     if (action === "plusone") {
       if (teamAScore === 10) {
         setTeamAWinMatches(teamAWinMatches + 1);
-        localStorage.setItem("TEAMAWINMATCHES", teamAWinMatches + 1);
+        setValueInLocalStorage("TEAMAWINMATCHES", teamAWinMatches + 1);
       }
       if (teamBScore === 10) {
         setTeamBWinMatches(teamBWinMatches + 1);
-        localStorage.setItem("TEAMBWINMATCHES", teamBWinMatches + 1);
+        setValueInLocalStorage("TEAMBWINMATCHES", teamBWinMatches + 1);
       }
       if (team === "A") {
         setTeamAScore(teamAScore + 1);
-        localStorage.setItem("TEAMASCORE", teamAScore + 1);
+        setValueInLocalStorage("TEAMASCORE", teamAScore + 1);
       } else {
         setTeamBScore(teamBScore + 1);
-        localStorage.setItem("TEAMBSCORE", teamBScore + 1);
+        setValueInLocalStorage("TEAMBSCORE", teamBScore + 1);
       }
     }
 
     if (action === "foul" || action === "wrongserve") {
       if (teamBScore === 10) {
         setTeamBWinMatches(teamBWinMatches + 1);
-        localStorage.setItem("TEAMBWINMATCHES", teamBWinMatches + 1);
+        setValueInLocalStorage("TEAMBWINMATCHES", teamBWinMatches + 1);
       }
       if (teamAScore === 10) {
         setTeamAWinMatches(teamAWinMatches + 1);
-        localStorage.setItem("TEAMAWINMATCHES", teamAWinMatches + 1);
+        setValueInLocalStorage("TEAMAWINMATCHES", teamAWinMatches + 1);
       }
       if (team === "A") {
         setTeamBScore(teamBScore + 1);
-        localStorage.setItem("TEAMBSCORE", teamBScore + 1);
+        setValueInLocalStorage("TEAMBSCORE", teamBScore + 1);
       } else {
         setTeamAScore(teamAScore + 1);
-        localStorage.setItem("TEAMASCORE", teamAScore + 1);
+        setValueInLocalStorage("TEAMASCORE", teamAScore + 1);
       }
     }
   };
+  useEffect(() => {
+    if (
+      getValueFromLocalStorage("teamATurn") === 2 ||
+      getValueFromLocalStorage("teamBTurn") === 2
+    ) {
+      if (
+        getValueFromLocalStorage("TEAMASCORE") === 11 ||
+        getValueFromLocalStorage("TEAMBSCORE") === 11
+      ) {
+        setDisableTeamA(true);
+        setDisableTeamB(true);
+        setDisablePlayNextMatch(false);
+        return;
+      }
+    }
+    if (getValueFromLocalStorage("teamATurn") === 2) {
+      setDisableTeamA(true);
+      setDisableTeamB(false);
+    }
+    if (getValueFromLocalStorage("teamBTurn") === 2) {
+      setDisableTeamA(false);
+      setDisableTeamB(true);
+    }
+  }, []);
   return (
     <div className="scoreBoard">
       <div className="scoreBoardPage">
@@ -148,7 +173,7 @@ export default function Scoreboard() {
       </div>
       <div className="matchesDivision">
         <button>TOTAL MATCHES : 5</button>
-        {+localStorage.getItem("MATCHPLAYED") === 5 ? (
+        {getValueFromLocalStorage("MATCHPLAYED") === 5 ? (
           <>
             <button>MATCH COMPLETED</button>
             <button onClick={seeMatchDetails}>SEE MATCH DETAILS</button>
@@ -156,7 +181,10 @@ export default function Scoreboard() {
         ) : (
           <>
             {" "}
-            <button> MATCHES LEFT : {localStorage.getItem("MATCHLEFT")}</button>
+            <button>
+              {" "}
+              MATCHES LEFT : {getValueFromLocalStorage("MATCHLEFT")}
+            </button>
             <button
               onClick={playNextMatch}
               disabled={disablePlayNextMatch}

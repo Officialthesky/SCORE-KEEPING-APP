@@ -1,5 +1,5 @@
 export const setValueInLocalStorage = (key, value) => {
-  localStorage.setItem(key, JSON.stringify(key, value));
+  localStorage.setItem(key, JSON.stringify(value));
 };
 
 export const getValueFromLocalStorage = (key) => {
@@ -11,26 +11,29 @@ export const removeValueInLocalStorage = (key) => {
 };
 
 export const playMatchHandler = (teamAName, teamBName, navigate) => {
-  localStorage.setItem("TEAMA", teamAName);
-  localStorage.setItem("TEAMB", teamBName);
-  localStorage.setItem("TEAMASCORE", 0);
-  localStorage.setItem("TEAMBSCORE", 0);
-  localStorage.setItem("TEAMAWINMATCHES", 0);
-  localStorage.setItem("TEAMBWINMATCHES", 0);
-  localStorage.setItem("MATCHPLAYED", 0);
-  localStorage.setItem("MATCHLEFT", 5);
+  setValueInLocalStorage("TEAMA", teamAName);
+  setValueInLocalStorage("TEAMB", teamBName);
+  setValueInLocalStorage("TEAMASCORE", 0);
+  setValueInLocalStorage("TEAMBSCORE", 0);
+  setValueInLocalStorage("TEAMAWINMATCHES", 0);
+  setValueInLocalStorage("TEAMBWINMATCHES", 0);
+  setValueInLocalStorage("MATCHPLAYED", 0);
+  setValueInLocalStorage("MATCHLEFT", 5);
   navigate(`/scorepage/`);
 };
 
 export const resetTeamAValueFromUtils = (team) => {
   if (team === "A") {
-    localStorage.setItem("TEAMASCORE", 0);
-    localStorage.setItem("TEAMAWINMATCHES", 0);
+    setValueInLocalStorage("TEAMASCORE", 0);
+
+    setValueInLocalStorage("TEAMAWINMATCHES", 0);
   } else {
-    localStorage.setItem("TEAMBSCORE", 0);
-    localStorage.setItem("TEAMBWINMATCHES", 0);
+    setValueInLocalStorage("TEAMBSCORE", 0);
+
+    setValueInLocalStorage("TEAMBWINMATCHES", 0);
   }
 
   localStorage.removeItem("MATCHPLAYED");
+  removeValueInLocalStorage("MATCHPLAYED");
   window.location.reload();
 };

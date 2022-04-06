@@ -1,10 +1,13 @@
-header{
-    width:100vw;
-    height:10vh;
-    background-color: darkslategray;
-    color:cornsilk;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+header {
+  width: 100vw;
+  height: 10vh;
+  background-color: darkslategray;
+  color: cornsilk;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+p {
+  color: cornsilk;
 }

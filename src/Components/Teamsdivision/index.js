@@ -1,5 +1,5 @@
 import React from "react";
-
+import { getValueFromLocalStorage } from "../../utils/helper";
 export default function Teamdivision({
   scoreHandler,
   team,
@@ -7,12 +7,14 @@ export default function Teamdivision({
   disableTeam,
 }) {
   const isTeamA = team === "A";
-  const teamScore = localStorage.getItem(isTeamA ? "TEAMASCORE" : "TEAMBSCORE");
-  const teamName = localStorage.getItem(isTeamA ? "TEAMA" : "TEAMB");
-  const teamWinMatches = localStorage.getItem(
+  const teamScore = getValueFromLocalStorage(
+    isTeamA ? "TEAMASCORE" : "TEAMBSCORE"
+  );
+  const teamName = getValueFromLocalStorage(isTeamA ? "TEAMA" : "TEAMB");
+  const teamWinMatches = getValueFromLocalStorage(
     isTeamA ? "TEAMAWINMATCHES" : "TEAMBWINMATCHES"
   );
-  const matchPlayed = localStorage.getItem(
+  const matchPlayed = getValueFromLocalStorage(
     isTeamA ? "MATCHPLAYED" : "MATCHPLAYED"
   );
 

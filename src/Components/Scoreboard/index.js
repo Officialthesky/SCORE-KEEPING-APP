@@ -69,18 +69,14 @@ export default function Scoreboard() {
       setTeamATurn(teamATurn + 1);
       if (teamATurn === 1) {
         setDisableTeamA(true);
-
         setDisableTeamB(false);
-
         setTeamBTurn(0);
       }
     } else {
       setTeamBTurn(teamBTurn + 1);
       if (teamBTurn === 1) {
         setDisableTeamB(true);
-
         setDisableTeamA(false);
-
         setTeamATurn(0);
       }
     }
@@ -88,14 +84,12 @@ export default function Scoreboard() {
     if (teamAScore === 10 || teamBScore === 10) {
       setMatchPlayed(matchPlayed + 1);
       localStorage.setItem("MATCHPLAYED", matchPlayed + 1);
-      setMatchLeft(totalmatches - matchPlayed - 1);
-      localStorage.setItem("MATCHLEFT", totalmatches - matchPlayed - 1);
+      setMatchLeft(matchLeft - 1);
+      localStorage.setItem("MATCHLEFT", matchLeft - 1);
       setDisableTeamA(true);
       localStorage.setItem("SETDISABLEA", true);
-
       setDisableTeamB(true);
       localStorage.setItem("SETDISABLEB", true);
-
       setDisablePlayNextMatch(false);
     }
     if (action === "plusone") {
